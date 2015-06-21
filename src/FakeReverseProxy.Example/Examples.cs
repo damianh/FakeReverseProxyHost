@@ -22,6 +22,8 @@ namespace FakeReverseProxy.Example
             AppFunc app2 = CreateApplication("instance2");
 
             var settings = new FakeReverseProxySettings();
+
+            // Here we're partioning the paths to different servers
             settings.Forward("/path1/").To(app1, new Uri("http://backend1.example.com/app1/"));
             settings.Forward("/path2/").To(app2, new Uri("http://backend2.example.com/app2/"));
 
@@ -57,9 +59,11 @@ namespace FakeReverseProxy.Example
             AppFunc app2 = CreateApplication("instance2");
 
             var settings = new FakeReverseProxySettings();
-            settings.Forward("/")
-                .To(app1, new Uri("http://backend1.example.com/"))
-                .To(app2, new Uri("http://backend2.example.com/"));
+
+            // Here we're round-robining a path to two seperate apps
+            settings.Forward("/path/")
+                .To(app1, new Uri("http://backend1.example.com/pathX/"))
+                .To(app2, new Uri("http://backend2.example.com/pathY/"));
 
             var reverseProxy = new FakeReverseProxy(settings);
             var handler = new OwinHttpMessageHandler(reverseProxy.AppFunc)
@@ -73,13 +77,13 @@ namespace FakeReverseProxy.Example
             })
             {
                 // Should hit app1
-                var response = await client.GetAsync("/");
+                var response = await client.GetAsync("/path/");
 
                 var body = await response.Content.ReadAsStringAsync();
                 body.Should().Be("instance1");
 
                 // Should hit app2
-                response = await client.GetAsync("/");
+                response = await client.GetAsync("/path/");
 
                 body = await response.Content.ReadAsStringAsync();
                 body.Should().Be("instance2");
