@@ -68,7 +68,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples.cs" />
+    <Compile Include="ExamplesRoundRobinTests.cs" />
+    <Compile Include="ExamplePartionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
