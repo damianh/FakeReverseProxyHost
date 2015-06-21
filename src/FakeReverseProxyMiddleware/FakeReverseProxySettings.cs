@@ -1,20 +1,33 @@
 ﻿namespace FakeReverseProxyMiddleware
 {
+    using System;
     using System.Collections.Generic;
     using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 
     public class FakeReverseProxySettings
     {
-        private readonly Dictionary<string, RemoteHost> _remoteHosts = new Dictionary<string, RemoteHost>();
+        private readonly Dictionary<string, ReverseProxyItem> _locations = new Dictionary<string, ReverseProxyItem>();
 
-        internal Dictionary<string, RemoteHost> RemoteHosts
+        internal Dictionary<string, ReverseProxyItem> Locations
         {
-            get { return _remoteHosts; }
+            get { return _locations; }
         }
 
-        public FakeReverseProxySettings AddRemoteHost(string host, string remoteHost, AppFunc appFunc)
+        public FakeReverseProxySettings AddEntry(string location, Uri remote, AppFunc appFunc)
         {
-            _remoteHosts.Add(host, new RemoteHost(remoteHost, appFunc));
+            if(string.IsNullOrWhiteSpace(location))
+            {
+                throw new ArgumentNullException("location");
+            }
+            if (remote == null)
+            {
+                throw new ArgumentNullException("remote");
+            }
+            if(appFunc == null)
+            {
+                throw new ArgumentNullException("appFunc");
+            }
+            _locations.Add(location, new ReverseProxyItem(remote, appFunc));
             return this;
         }
     }

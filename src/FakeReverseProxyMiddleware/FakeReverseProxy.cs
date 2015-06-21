@@ -18,11 +18,11 @@
                 var context = new OwinContext(env);
 
                 var host = context.Request.Uri.Host;
-                RemoteHost remoteHost;
-                if(settings.RemoteHosts.TryGetValue(host, out remoteHost))
+                ReverseProxyItem reverseProxyItem;
+                if(settings.Locations.TryGetValue(host, out reverseProxyItem))
                 {
-                    context.Request.Host = new HostString(remoteHost.Host);
-                    await remoteHost.AppFunc(env);
+                    //context.Request.Host = new HostString(reverseProxyItem.Remote);
+                    await reverseProxyItem.AppFunc(env);
                     return;
                 }
 

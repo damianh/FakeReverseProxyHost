@@ -1,7 +1,6 @@
 ﻿namespace FakeReverseProxyMiddleware
 {
     using System;
-    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using FluentAssertions;
@@ -20,7 +19,7 @@
         public FakeReverseProxyTests()
         {
             _sut = null;
-            AppFunc exampleComAppFunc = async env =>
+            AppFunc proxiedAppFunc = async env =>
             {
                 var context = new OwinContext(env);
                 _sut = context;
@@ -29,7 +28,7 @@
                 await context.Response.WriteAsync("Hello");
             };
             var settings = new FakeReverseProxySettings()
-                .AddRemoteHost("example.com", "internal1.example.com", exampleComAppFunc);
+                .AddEntry("/some/path", new Uri("http://internal1.example.com:8080/link/"), proxiedAppFunc);
 
             AppFunc appFunc = FakeReverseProxy.CreateAppFunc(settings);
 
