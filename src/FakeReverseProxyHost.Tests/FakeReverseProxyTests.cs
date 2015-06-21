@@ -25,8 +25,10 @@
                 context.Response.ReasonPhrase = "OK";
                 await context.Response.WriteAsync("Hello");
             };
-            var settings = new FakeReverseProxySettings()
-                .Forward("/some/path/", new Uri("http://internal1.example.com:8080/link/"), proxiedAppFunc);
+            var settings = new FakeReverseProxySettings();
+            settings
+                .Forward("/some/path/")
+                .To(proxiedAppFunc, new Uri("http://internal1.example.com:8080/link/"));
 
             var handler = new OwinHttpMessageHandler(new FakeReverseProxy(settings).AppFunc)
             {

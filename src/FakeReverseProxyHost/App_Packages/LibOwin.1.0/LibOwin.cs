@@ -5,7 +5,7 @@
 // Modifying this file may result in difficulties when upgrading the package.
 // All types are internal. Add a LIBOWIN_PUBLIC compilation symbol to make them public.
 
-namespace FakeReverseProxyHost.App_Packages.LibOwin._1._0
+namespace FakeReverseProxyHost.LibOwin
 {
     using System;
     using System;

@@ -15,10 +15,12 @@
         {
             var settings = new FakeReverseProxySettings();
 
-            settings.Forward(location, new Uri("http://internal.example.com/link/"), env => Task.FromResult(0));
+            settings
+                .Forward(location)
+                .To(env => Task.FromResult(0), new Uri("http://internal.example.com/link/"));
 
             var forwardEntry = settings.FindForwardEntry("/some/path/page.html");
-            var url = forwardEntry.GetUrl("/some/path/page.html");
+            var url = forwardEntry.GetUri("/some/path/page.html");
 
             forwardEntry.Should().NotBeNull();
             url.ToString().Should().Be(expectedProxiedUrl);
@@ -31,7 +33,9 @@
         {
             var settings = new FakeReverseProxySettings();
 
-            settings.Forward("/some/path", new Uri("http://internal.example.com/link/"), env => Task.FromResult(0));
+            settings
+                .Forward("/some/path")
+                .To(env => Task.FromResult(0), new Uri("http://internal.example.com/link/"));
 
             var forwardEntry = settings.FindForwardEntry(location);
 

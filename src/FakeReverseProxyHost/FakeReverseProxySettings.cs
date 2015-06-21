@@ -8,7 +8,7 @@
     {
         private readonly Node _root = new Node();
 
-        public FakeReverseProxySettings Forward(string location, Uri toRemote, AppFunc toAppFunc)
+        public ForwardEntry Forward(string location)
         {
             if (string.IsNullOrWhiteSpace(location))
             {
@@ -18,25 +18,15 @@
             {
                 throw new ArgumentException("locations should begine with a forward slash '/'", "location");
             }
-            if (toRemote == null)
-            {
-                throw new ArgumentNullException("toRemote");
-            }
-            if (toAppFunc == null)
-            {
-                throw new ArgumentNullException("toAppFunc");
-            }
 
             var node = _root;
-
             for (var i = 0; i < location.Length; i++)
             {
                 var c = location[i];
                 node = node.GetOrAddNode(c);
             }
-            node.ForwardEntry = new ForwardEntry(location, toRemote, toAppFunc);
-
-            return this;
+            node.ForwardEntry = new ForwardEntry(location);
+            return node.ForwardEntry;
         }
 
         public ForwardEntry FindForwardEntry(string location)
@@ -76,5 +66,6 @@
                 return _children.TryGetValue(c, out node);
             }
         }
+
     }
 }
