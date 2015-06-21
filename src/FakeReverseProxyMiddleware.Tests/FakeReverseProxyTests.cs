@@ -1,6 +1,7 @@
 ﻿namespace FakeReverseProxyMiddleware
 {
     using System;
+    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using FluentAssertions;
@@ -28,11 +29,9 @@
                 await context.Response.WriteAsync("Hello");
             };
             var settings = new FakeReverseProxySettings()
-                .AddEntry("/some/path", new Uri("http://internal1.example.com:8080/link/"), proxiedAppFunc);
+                .Forward("/some/path/", new Uri("http://internal1.example.com:8080/link/"), proxiedAppFunc);
 
-            AppFunc appFunc = FakeReverseProxy.CreateAppFunc(settings);
-
-            var handler = new OwinHttpMessageHandler(appFunc)
+            var handler = new OwinHttpMessageHandler(FakeReverseProxy.CreateAppFunc(settings))
             {
                 AllowAutoRedirect = false,
                 UseCookies = true
@@ -40,16 +39,26 @@
 
             _client = new HttpClient(handler)
             {
-                BaseAddress = new Uri("http://example.com")
+                BaseAddress = new Uri("https://example.com")
             };
         }
 
         [Fact]
         public async Task Should_change_request_host()
         {
-            await _client.GetAsync("");
+            var response = await _client.GetAsync("/some/path/page.html?q=1");
 
-            _sut.Request.Uri.Host.Should().Be("internal1.example.com");
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            _sut.Request.Uri.ToString().Should().Be("http://internal1.example.com:8080/link/page.html?q=1");
+        }
+
+        [Fact]
+        public async Task Should_have_x_forwarded_proto_header() //TODO Forwarded header
+        {
+            var response = await _client.GetAsync("/some/path/page.html?q=1");
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            _sut.Request.Headers["X-Forwarded-Proto"].Should().Be("https");
         }
 
         public void Dispose()

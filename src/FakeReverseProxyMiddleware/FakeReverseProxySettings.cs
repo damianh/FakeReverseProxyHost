@@ -6,29 +6,75 @@
 
     public class FakeReverseProxySettings
     {
-        private readonly Dictionary<string, ReverseProxyItem> _locations = new Dictionary<string, ReverseProxyItem>();
+        private readonly Node _root = new Node();
 
-        internal Dictionary<string, ReverseProxyItem> Locations
+        public FakeReverseProxySettings Forward(string location, Uri toRemote, AppFunc toAppFunc)
         {
-            get { return _locations; }
-        }
-
-        public FakeReverseProxySettings AddEntry(string location, Uri remote, AppFunc appFunc)
-        {
-            if(string.IsNullOrWhiteSpace(location))
+            if (string.IsNullOrWhiteSpace(location))
             {
                 throw new ArgumentNullException("location");
             }
-            if (remote == null)
+            if (!location.StartsWith("/"))
             {
-                throw new ArgumentNullException("remote");
+                throw new ArgumentException("locations should begine with a forward slash '/'", "location");
             }
-            if(appFunc == null)
+            if (toRemote == null)
             {
-                throw new ArgumentNullException("appFunc");
+                throw new ArgumentNullException("toRemote");
             }
-            _locations.Add(location, new ReverseProxyItem(remote, appFunc));
+            if (toAppFunc == null)
+            {
+                throw new ArgumentNullException("toAppFunc");
+            }
+
+            var node = _root;
+
+            for (var i = 0; i < location.Length; i++)
+            {
+                var c = location[i];
+                node = node.GetOrAddNode(c);
+            }
+            node.ForwardEntry = new ForwardEntry(location, toRemote, toAppFunc);
+
             return this;
+        }
+
+        public ForwardEntry FindForwardEntry(string location)
+        {
+            var node = _root;
+            for (int i = 0; i < location.Length; i++)
+            {
+                Node child;
+                if (!node.TryGetNode(location[i], out child))
+                {
+                    return node.ForwardEntry;
+                }
+                node = child;
+            }
+            return node.ForwardEntry;
+        }
+
+        private class Node
+        {
+            private readonly Dictionary<char, Node> _children = new Dictionary<char, Node>();
+
+            internal ForwardEntry ForwardEntry { get; set; }
+
+            internal Node GetOrAddNode(char c)
+            {
+                if (_children.ContainsKey(c))
+                {
+                    return _children[c];
+                }
+                var node = new Node();
+                _children.Add(c, node);
+                return node;
+            }
+
+            public bool TryGetNode(char c, out Node node)
+            {
+                return _children.TryGetValue(c, out node);
+            }
         }
     }
 }
