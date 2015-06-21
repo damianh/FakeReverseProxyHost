@@ -1,4 +1,4 @@
-﻿namespace FakeReverseProxyMiddleware
+﻿namespace FakeReverseProxyHost
 {
     using System;
     using System.Threading.Tasks;

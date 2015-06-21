@@ -1,4 +1,4 @@
-﻿namespace FakeReverseProxyMiddleware
+﻿namespace FakeReverseProxyHost
 {
     using System;
     using System.Net;
@@ -8,9 +8,6 @@
     using Microsoft.Owin;
     using Xunit;
     using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
-    using MidFunc = System.Func<
-      System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>,
-      System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>>;
 
     public class FakeReverseProxyTests : IDisposable
     {
@@ -31,7 +28,7 @@
             var settings = new FakeReverseProxySettings()
                 .Forward("/some/path/", new Uri("http://internal1.example.com:8080/link/"), proxiedAppFunc);
 
-            var handler = new OwinHttpMessageHandler(FakeReverseProxy.CreateAppFunc(settings))
+            var handler = new OwinHttpMessageHandler(new FakeReverseProxy(settings).AppFunc)
             {
                 AllowAutoRedirect = false,
                 UseCookies = true

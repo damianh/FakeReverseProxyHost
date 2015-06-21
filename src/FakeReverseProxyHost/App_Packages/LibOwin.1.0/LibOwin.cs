@@ -5,12 +5,23 @@
 // Modifying this file may result in difficulties when upgrading the package.
 // All types are internal. Add a LIBOWIN_PUBLIC compilation symbol to make them public.
 
-namespace FakeReverseProxyMiddleware.LibOwin.Infrastructure
+namespace FakeReverseProxyHost.App_Packages.LibOwin._1._0
 {
     using System;
+    using System;
+    using System.Collections;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Principal;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     internal static partial class Constants
     {
@@ -877,22 +888,6 @@ namespace FakeReverseProxyMiddleware.LibOwin.Infrastructure
             return string.IsNullOrWhiteSpace(localPort) ? localIpAddress : (localIpAddress + ":" + localPort);
         }
     }
-}
-
-namespace FakeReverseProxyMiddleware.LibOwin
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Security.Principal;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using FakeReverseProxyMiddleware.LibOwin.Infrastructure;
 
     /// <summary>
     /// Options used to create a new cookie.
@@ -902,7 +897,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class CookieOptions
+        class CookieOptions
     {
         /// <summary>
         /// Creates a default cookie with a path of '/'.
@@ -951,7 +946,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class FormCollection : ReadableStringCollection, IFormCollection
+        class FormCollection : ReadableStringCollection, IFormCollection
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microsoft.Owin.FormCollection" /> class.
@@ -970,7 +965,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class HeaderDictionary : IHeaderDictionary
+        class HeaderDictionary : IHeaderDictionary
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Microsoft.Owin.HeaderDictionary" /> class.
@@ -1253,7 +1248,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    struct HostString : IEquatable<HostString>
+        struct HostString : IEquatable<HostString>
     {
         private readonly string _value;
 
@@ -1302,8 +1297,8 @@ namespace FakeReverseProxyMiddleware.LibOwin
                 return _value;
             }
             else if ((index = _value.IndexOf(':')) >= 0
-                && index < _value.Length - 1
-                && _value.IndexOf(':', index + 1) >= 0)
+                     && index < _value.Length - 1
+                     && _value.IndexOf(':', index + 1) >= 0)
             {
                 // IPv6 without brackets ::1 is the only type of host with 2 or more colons
                 return "[" + _value + "]";
@@ -1338,8 +1333,8 @@ namespace FakeReverseProxyMiddleware.LibOwin
                     // IPv6 in brackets [::1], maybe with port
                 }
                 else if ((index = uriComponent.IndexOf(':')) >= 0
-                    && index < uriComponent.Length - 1
-                    && uriComponent.IndexOf(':', index + 1) >= 0)
+                         && index < uriComponent.Length - 1
+                         && uriComponent.IndexOf(':', index + 1) >= 0)
                 {
                     // IPv6 without brackets ::1 is the only type of host with 2 or more colons
                 }
@@ -1444,7 +1439,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    interface IFormCollection : IReadableStringCollection
+        interface IFormCollection : IReadableStringCollection
     {}
 
     /// <summary>
@@ -1455,7 +1450,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    interface IHeaderDictionary : IReadableStringCollection, IDictionary<string, string[]>
+        interface IHeaderDictionary : IReadableStringCollection, IDictionary<string, string[]>
     {
         /// <summary>
         /// Get or sets the associated value from the collection as a single string.
@@ -1523,7 +1518,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    interface IOwinContext
+        interface IOwinContext
     {
         /// <summary>
         /// Gets a wrapper exposing request specific properties.
@@ -1575,7 +1570,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    interface IOwinRequest
+        interface IOwinRequest
     {
         /// <summary>
         /// Gets the OWIN environment.
@@ -1759,7 +1754,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    interface IOwinResponse
+        interface IOwinResponse
     {
         /// <summary>
         /// Gets the OWIN environment.
@@ -1932,7 +1927,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    interface IReadableStringCollection : IEnumerable<KeyValuePair<string, string[]>>
+        interface IReadableStringCollection : IEnumerable<KeyValuePair<string, string[]>>
     {
         /// <summary>
         /// Get the associated value from the collection.  Multiple values will be merged.
@@ -2141,7 +2136,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class OwinContext : IOwinContext
+        class OwinContext : IOwinContext
     {
         /// <summary>
         /// Create a new context with only request and response header collections.
@@ -2234,7 +2229,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class OwinRequest : IOwinRequest
+        class OwinRequest : IOwinRequest
     {
         /// <summary>
         /// Create a new context with only request and response header collections.
@@ -2614,7 +2609,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class OwinResponse : IOwinResponse
+        class OwinResponse : IOwinResponse
     {
         /// <summary>
         /// Create a new context with only request and response header collections.
@@ -2946,7 +2941,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    struct PathString : IEquatable<PathString>
+        struct PathString : IEquatable<PathString>
     {
         private static readonly Func<string, string> EscapeDataString = Uri.EscapeDataString;
 
@@ -3023,9 +3018,9 @@ namespace FakeReverseProxyMiddleware.LibOwin
                 // Check conservatively for safe characters. See http://www.ietf.org/rfc/rfc3986.txt
                 bool safeChar =
                     (('a' <= c && c <= 'z')
-                    || ('A' <= c && c <= 'Z')
-                    || ('0' <= c && c <= '9')
-                    || c == '/' || c == '-' || c == '_');
+                     || ('A' <= c && c <= 'Z')
+                     || ('0' <= c && c <= '9')
+                     || c == '/' || c == '-' || c == '_');
                 if (!safeChar)
                 {
                     return true;
@@ -3214,7 +3209,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    struct QueryString : IEquatable<QueryString>
+        struct QueryString : IEquatable<QueryString>
     {
         /// <summary>
         /// Represents the empty query string. This field is read-only.
@@ -3379,7 +3374,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class ReadableStringCollection : IReadableStringCollection
+        class ReadableStringCollection : IReadableStringCollection
     {
         /// <summary>
         /// Create a new wrapper
@@ -3459,7 +3454,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class RequestCookieCollection : IEnumerable<KeyValuePair<string, string>>
+        class RequestCookieCollection : IEnumerable<KeyValuePair<string, string>>
     {
         /// <summary>
         /// Create a new wrapper
@@ -3526,7 +3521,7 @@ namespace FakeReverseProxyMiddleware.LibOwin
 #else
     internal
 #endif
-    class ResponseCookieCollection
+        class ResponseCookieCollection
     {
         /// <summary>
         /// Create a new wrapper
@@ -3626,13 +3621,13 @@ namespace FakeReverseProxyMiddleware.LibOwin
             {
                 rejectPredicate = value =>
                     value.StartsWith(key + "=", StringComparison.OrdinalIgnoreCase) &&
-                        value.IndexOf("domain=" + options.Domain, StringComparison.OrdinalIgnoreCase) != -1;
+                    value.IndexOf("domain=" + options.Domain, StringComparison.OrdinalIgnoreCase) != -1;
             }
             else if (pathHasValue)
             {
                 rejectPredicate = value =>
                     value.StartsWith(key + "=", StringComparison.OrdinalIgnoreCase) &&
-                        value.IndexOf("path=" + options.Path, StringComparison.OrdinalIgnoreCase) != -1;
+                    value.IndexOf("path=" + options.Path, StringComparison.OrdinalIgnoreCase) != -1;
             }
             else
             {
@@ -3655,12 +3650,12 @@ namespace FakeReverseProxyMiddleware.LibOwin
     }
 
 
-    #if LIBOWIN_PUBLIC
+#if LIBOWIN_PUBLIC
     public
 #else
     internal
 #endif
-    static class IOwinResponseExtension 
+        static class IOwinResponseExtension 
     {
         /// <summary>
         /// Registers for an event that fires when the response headers are sent.

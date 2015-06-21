@@ -1,27 +1,26 @@
-﻿namespace FakeReverseProxyMiddleware
+﻿namespace FakeReverseProxyHost
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
-    using FakeReverseProxyMiddleware.LibOwin;
+    using FakeReverseProxyHost.App_Packages.LibOwin._1._0;
+    using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 
-    public static class FakeReverseProxy
+    public class FakeReverseProxy
     {
+        public readonly AppFunc AppFunc;
         private const string HostHeaderKey = "Host";
 
-        public static Func<IDictionary<string, object>, Task> CreateAppFunc(FakeReverseProxySettings settings)
+        public FakeReverseProxy(FakeReverseProxySettings settings)
         {
             if (settings == null)
             {
                 throw new ArgumentNullException("settings");
             }
-            return async env =>
+            AppFunc = async env =>
             {
                 var context = new OwinContext(env);
                 var originalUri = context.Request.Uri;
                 ForwardEntry forwardEntry = settings.FindForwardEntry(context.Request.Uri.AbsolutePath);
-                if(forwardEntry != null)
+                if (forwardEntry != null)
                 {
                     var url = forwardEntry.GetUrl(context.Request.Uri.AbsolutePath);
                     env[OwinConstants.RequestPath] = url.AbsolutePath;

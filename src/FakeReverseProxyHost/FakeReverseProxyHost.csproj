@@ -7,8 +7,8 @@
     <ProjectGuid>{78C3753C-9BE8-4B72-AF4A-74E664145EE9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FakeReverseProxyMiddleware</RootNamespace>
-    <AssemblyName>FakeReverseProxyMiddleware</AssemblyName>
+    <RootNamespace>FakeReverseProxyHost</RootNamespace>
+    <AssemblyName>FakeReverseProxyHost</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
